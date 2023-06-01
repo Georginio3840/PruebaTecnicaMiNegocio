@@ -12,5 +12,5 @@ public interface ICustomerService {
     public Customer update(Customer customer);
     public List <Customer> findByNameOrDni(String name, String dni);
     void delete(Long id);
-    public List<Address> gerAddressesByCustomerId(Long id);
+
 }

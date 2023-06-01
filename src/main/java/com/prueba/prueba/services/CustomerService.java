@@ -31,15 +31,10 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        customerRepository.deleteById(id);
+    
     }
 
-    @Override
-    public List<Address> gerAddressesByCustomerId(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gerAddressesByCustomerId'");
-    }
 
     @Override
     public List<Customer> findByNameOrDni(String name, String dni) {
@@ -50,6 +45,7 @@ public class CustomerService implements ICustomerService {
     public Customer update(Customer customer) {
         return customerRepository.save(customer);   
     }
+
     
     
 }

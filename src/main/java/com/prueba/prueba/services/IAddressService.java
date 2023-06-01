@@ -11,7 +11,7 @@ public interface IAddressService {
     public List<Address> getAllAddresses();
     public Address update(Long id, Address address);
     void delete(Long id);
-
+    public List<Address> getAddressesByCustomerId(Long id);
     
     
 }

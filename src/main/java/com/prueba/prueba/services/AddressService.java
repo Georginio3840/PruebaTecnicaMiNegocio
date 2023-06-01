@@ -72,6 +72,17 @@ public class AddressService implements IAddressService {
     addressRepository.deleteById(id);    
     }
 
+
+
+
+    @Override
+    public List<Address> getAddressesByCustomerId(Long id) {
+        
+        return addressRepository.findByCustomerId(id);
+
+    
+    }
+
     
     
 }

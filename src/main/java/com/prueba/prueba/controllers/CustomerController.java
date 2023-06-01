@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.prueba.prueba.dto.AddressDto;
+import com.prueba.prueba.dto.CustomerDto;
 import com.prueba.prueba.dto.CustomerWhitAddress;
 import com.prueba.prueba.model.Address;
 import com.prueba.prueba.model.Customer;
@@ -71,14 +72,19 @@ public class CustomerController {
     return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
        
     }
+
+    //Listar las direcciones addicionales al
     @GetMapping("/search")
 public ResponseEntity<List<Customer>> findByNameOrDni(@RequestParam String name, @RequestParam String dni) {
     return ResponseEntity.ok(customerService.findByNameOrDni(name, dni));
 }
 
 @PutMapping("/{id}")
-public ResponseEntity<Address> update(@PathVariable Long id, @RequestBody Address address) {
-    return ResponseEntity.ok(addressService.update(id, address));
+public ResponseEntity<Customer> update(@PathVariable Long id, @RequestBody CustomerWhitAddress customerDto) {
+    Customer customer = customerDto.toCustomer();
+    customer.setId(id);
+    return ResponseEntity.ok(customerService.update(customer));
+
 }
 @DeleteMapping("/{id}")
 public ResponseEntity<Void> delete(@PathVariable Long id) {
@@ -86,4 +92,9 @@ public ResponseEntity<Void> delete(@PathVariable Long id) {
     return ResponseEntity.noContent().build();
 }
     
+
+@GetMapping("/{id}/addresses")
+public ResponseEntity<List<Address>> getAddressesByCustomerId(@PathVariable Long id) {
+    return ResponseEntity.ok(addressService.getAddressesByCustomerId(id));
+}
 }
