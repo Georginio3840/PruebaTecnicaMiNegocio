@@ -2,7 +2,6 @@ package com.prueba.prueba.services;
 
 import java.util.List;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.prueba.prueba.dto.AddressDto;
@@ -46,23 +45,8 @@ public class AddressService implements IAddressService {
         return addressRepository.save(address);
     }
 
-    public AddressDto toDto(Address address) {
-    AddressDto dto = new AddressDto();
-    dto.setId(address.getId());
-    dto.setAddress(address.getAddress());
-    dto.setIsMain(address.getIsMain());
-    // ... asignar otros campos
-    return dto;
-}
+   
 
-public Address toEntity(AddressDto dto) {
-    Address address = new Address();
-    address.setId(dto.getId());
-    address.setAddress(dto.getAddress());
-    address.setIsMain(dto.getIsMain());
-    // ... asignar otros campos
-    return address;
-}
 
 
 

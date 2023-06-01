@@ -1,5 +1,7 @@
 package com.prueba.prueba.dto;
 
+import com.prueba.prueba.model.Address;
+
 import lombok.Data;
 
 @Data

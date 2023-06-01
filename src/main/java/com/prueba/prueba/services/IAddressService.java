@@ -11,7 +11,7 @@ public interface IAddressService {
     public List<Address> getAllAddresses();
     public Address update(Long id, Address address);
     void delete(Long id);
-    public AddressDto toDto(Address address);
-    public Address toEntity(AddressDto addressDto);
+
+    
     
 }
