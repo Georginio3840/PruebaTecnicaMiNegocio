@@ -1,6 +1,5 @@
 package com.prueba.prueba.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +12,6 @@ import com.prueba.prueba.model.Customer;
 import com.prueba.prueba.repositories.AddressRepository;
 import com.prueba.prueba.repositories.CustomerRepository;
 
-import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -55,19 +53,19 @@ public class CustomerService implements ICustomerService {
     @Override
     public void delete(Long id) {
         Optional<Customer> existingCustomer = customerRepository.findById(id);
-    if (existingCustomer.isPresent()) {
-        Customer customer = existingCustomer.get();
-        
-        // Eliminar las direcciones asociadas al cliente
-        for (Address address : customer.getAddresses()) {
-            addressRepository.delete(address);
+        if (existingCustomer.isPresent()) {
+            Customer customer = existingCustomer.get();
+
+            // Eliminar las direcciones asociadas al cliente
+            for (Address address : customer.getAddresses()) {
+                addressRepository.delete(address);
+            }
+
+            // Finalmente eliminar el cliente
+            customerRepository.delete(customer);
+        } else {
+            throw new EntityNotFoundException("Customer no encontrado id" + id);
         }
-        
-        // Finalmente eliminar el cliente
-        customerRepository.delete(customer);
-    } else {
-        throw new EntityNotFoundException("Customer no encontrado id" + id);
-    }
     }
 
     @Override
@@ -84,15 +82,15 @@ public class CustomerService implements ICustomerService {
             if (customerWithSameDni.isPresent() && !customerWithSameDni.get().getId().equals(customer.getId())) {
                 throw new DuplicateEntityException("Ya existe un cliente con el DNI: " + customer.getDniCustomer());
             }
-    
+
             Customer dbCustomer = existingCustomer.get();
             dbCustomer.setName(customer.getName());
             dbCustomer.setDniCustomer(customer.getDniCustomer());
-    
+
             return customerRepository.save(dbCustomer);
         } else {
             throw new EntityNotFoundException("Cliente no encontrado con el id " + customer.getId());
-        }    
+        }
 
     }
 

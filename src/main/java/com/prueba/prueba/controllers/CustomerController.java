@@ -26,6 +26,8 @@ import com.prueba.prueba.services.ICustomerService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
+
+// Este es el controlador principal de la aplicación. Se encarga de gestionar las solicitudes HTTP.
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/customer")
@@ -33,24 +35,27 @@ public class CustomerController {
     private final ICustomerService customerService;
     private final IAddressService addressService;
 
+     // Este método gestiona las solicitudes POST para crear un nuevo cliente junto con su dirección principal y las direcciones adicionales.
     @PostMapping
     public ResponseEntity<Object> create(@Valid @RequestBody CustomerWhitAddress customerDto) {
        
         
-    // Crear y guardar el cliente
+    // Aquí se convierte el DTO en una entidad y se guarda en la base de datos.
+       
     Customer customer = customerDto.toCustomer();
     Customer savedCustomer = customerService.create(customer);
 
-    // Crear y guardar la dirección principal
+    // Aquí se crea y se guarda la dirección principal del cliente.
+       
     Address mainAddress = customerDto.getMainAddress();
     mainAddress.setCustomer(savedCustomer);
     mainAddress.setIsMain(true);
     addressService.create(mainAddress);
 
-    // Asignar la dirección principal al cliente
+    // Aquí se asigna la dirección principal al cliente.
     savedCustomer.setMainAddress(mainAddress);
 
-    // Crear y guardar las direcciones adicionales, si las hay
+    // Aquí se crean y se guardan las direcciones adicionales, si las hay.
     List<Address> addresses = new ArrayList<>();
     if (customerDto.getAddresses() != null) {
         for (AddressDto addressDto : customerDto.getAddresses()) {
@@ -63,10 +68,10 @@ public class CustomerController {
         }
     }
 
-    // Asignar las direcciones adicionales al cliente
+     // Aquí se asignan las direcciones adicionales al cliente.
     savedCustomer.setAddresses(addresses);
 
-    // Actualizar el cliente en la base de datos
+    // Aquí se actualiza el cliente en la base de datos.
     customerService.update(savedCustomer); // Aquí guardamos el cliente actualizado
 
     return ResponseEntity.status(HttpStatus.CREATED).body(savedCustomer);
