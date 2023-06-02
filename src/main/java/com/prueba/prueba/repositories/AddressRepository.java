@@ -11,4 +11,3 @@ import com.prueba.prueba.model.Address;
 public interface AddressRepository extends JpaRepository<Address, Long> {
     List<Address> findByCustomerId(Long customerId);
 }
-

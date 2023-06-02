@@ -1,7 +1,5 @@
 package com.prueba.prueba.model;
 
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -20,6 +18,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -27,36 +27,24 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="Customer")
+@Table(name = "Customer")
 public class Customer {
 
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    
+
     private String dniCustomer;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "main_address_id")
+    @JoinColumn(name = "main_address_id", referencedColumnName = "id")
     @JsonIgnore
     private Address mainAddress;
 
-    @OneToMany(
-        mappedBy = "customer",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
-        
-        
-        )
+    @OneToMany(mappedBy = "customer")
     @OrderBy("id ASC")
-    private List <Address> addresses;
+    private List<Address> addresses = new ArrayList<>();
 
-    
-    
-    
-
-    
 }
